@@ -36,7 +36,7 @@
 			<div id="promptContent"></div>
 			<button id="ok">Ok</button>
 		</div>
-		<div id="mainContent">
+		<div id="mainContent" class="mainRegister">
 			<h1>Welcome to Avalon Online</h1>
 			<form id="register" action="controller.php" method="post">
 				<table>

@@ -2,7 +2,7 @@
 
 /*site-wide*/
 body {
-	background-image:url(stonewall.jpg);
+	background-image:url(Assets/stonewall.jpg);
 	font-family:Arial;
 	color:#FFF;
 }
@@ -39,6 +39,10 @@ body {
 }
 
 /*for register.php*/
+.mainRegister {
+	height:601.75px;	
+}
+
 form#register {
 	width:360px;
 	text-align:center;
