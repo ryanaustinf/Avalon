@@ -1,0 +1,78 @@
+10
+Register - 8 hours
+Login - 8 hours
+Host Game - 8 hours
+Friend User
+Join Game - 4 hours
+Begin Game - 16 hours
+Select Quest Members
+Vote For Team
+Determine Success of Quest
+
+20
+Cancel Game - 4 hours
+Select Special Characters
+Select Special Rules
+
+30
+View User Profile
+Edit Profile
+View Friends
+
+40
+Alter User Level
+Discuss Game
+
+50
+Flag User
+Moderate User
+View Community Statistics
+------------------------------------------------------
+1. There is no means to maintain the community listings
+
+Register 
+Login
+View User Profile
+Edit Profile
+View Friends
+Alter User Level
+Flag User
+Moderate User
+Friend User
+View Community Statistics
+
+2. There is no means to maintain the game listings
+
+Host Game
+Cancel Game
+Join Game
+Select Special Characters
+Select Special Rules
+Discuss Game
+
+3. The reveal phase is prone to unintended reveals
+Begin Game
+
+4. It's hard for everyone to keep track of quest members and votes
+Select Quest Members
+Vote For Team
+
+5. It's hard to maintain secrecy for quest results
+Determine Success of Quest
+
+Austin
+Marc
+Johan
+Boobs
+JJ
+Richard
+Borja
+Mervin
+Chester
+Jed
+Clarisse
+Rissa
+Alds
+AJ
+Ken
+Stanley
