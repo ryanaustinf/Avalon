@@ -1,1 +1,114 @@
 @CHARSET "ISO-8859-1";
+
+/*site-wide*/
+body {
+	background-image:url(stonewall.jpg);
+	font-family:Arial;
+	color:#FFF;
+}
+
+#mainContent {
+	background-color:#9C6129;
+	width:800px;
+	margin:auto;
+	padding:20px 50px;
+}
+
+#prompt {
+	background-color:#9C6129;
+	border:5px solid #958C7D;
+	text-align:center;
+	padding:30px;
+	position: absolute;
+	top:25%;
+	bottom:25%;
+	left:25%;
+	right:25%;
+	z-index:1000;
+}
+
+#promptContent {
+	vertical-align:middle;
+}
+
+#ok {
+	text-transform:uppercase;
+	position:relative;
+	top:200px;
+	padding:20px;
+}
+
+/*for register.php*/
+form#register {
+	width:360px;
+	text-align:center;
+	padding:20px;
+	border:solid 1px #000;
+}
+
+#register h1 {
+	text-align:center;
+}
+
+input#register, #ok {
+	color:#FFF;
+	background-color:#F8BA53;
+	width:100px;
+	border:none;
+	font-weight:bold;
+	padding:5px;
+}
+
+#biolabel {
+	font-weight:bold;
+}
+
+.input {
+	width:346px;	
+}
+
+#textarea {
+	width:346px;
+	height:200px;
+}
+
+/*for list box*/
+#listBox {
+	height:222px;
+	margin-bottom:10px;
+}
+
+.highlight {
+	background-color:rgb(232,242,254);
+}
+
+p[id^="left"], p[id^="right"] {
+	margin:0;
+}
+
+#leftBox, #rightBox {
+	width:300px;
+	min-height: 200px;
+	border: #000 solid 1px;
+	padding:10px;
+}
+
+#listButtons {
+	text-align:center;
+	width:40px;
+	position:relative;
+	top:-160px;
+	left:340px;
+}
+
+#rightBox {
+	position:relative;
+	top:-322px;
+	left:400px;
+}
+
+#listButtons button{
+	width:35px;
+	display:block;
+	margin: 3px auto;
+}

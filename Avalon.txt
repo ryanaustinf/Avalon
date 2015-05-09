@@ -1,33 +1,50 @@
+Milestone 1
+
+Iteration 1 
+
 10
 Register - 8 hours
 Login - 8 hours
 Host Game - 8 hours
-Friend User
+Friend User  4 hours
 Join Game - 4 hours
 Begin Game - 16 hours
-Select Quest Members
-Vote For Team
-Determine Success of Quest
+
+---------------------------------------
+
+Iteration 2
+
+Select Quest Members - 8 hours
+Vote For Team - 4 hours
+Determine Success of Quest - 4 hours
 
 20
 Cancel Game - 4 hours
-Select Special Characters
-Select Special Rules
+Select Special Characters - 8 hours
+Select Special Rules - 4 hours
 
 30
-View User Profile
-Edit Profile
-View Friends
+View User Profile - 4 hours
+Edit Profile - 8 hours
+View Friends - 4 hours
+
+---------------------------------------
+
+Milestone 2
+
+Iteration 1 
 
 40
-Alter User Level
-Discuss Game
+Alter User Level - 8 hours
+Discuss Game - 16 hours
 
 50
-Flag User
-Moderate User
-View Community Statistics
+Flag User - 4 hours
+Moderate User - 4 hours
+View Community Statistics - 8 hours
+
 ------------------------------------------------------
+
 1. There is no means to maintain the community listings
 
 Register 
