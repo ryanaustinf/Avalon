@@ -4,6 +4,7 @@ Iteration 1
 
 10
 Register - 8 hours
+--------------DONE----------------
 Login - 8 hours
 Host Game - 8 hours
 Friend User  4 hours
