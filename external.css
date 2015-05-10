@@ -8,15 +8,15 @@ body {
 }
 
 #mainContent {
-	background-color:#9C6129;
+	background-color:#8E8073;
 	width:800px;
 	margin:auto;
 	padding:20px 50px;
 }
 
 #prompt {
-	background-color:#9C6129;
-	border:5px solid #958C7D;
+	background-color:#8E8073;
+	border:5px ridge #FFF;
 	text-align:center;
 	padding:30px;
 	position: absolute;
@@ -34,7 +34,7 @@ body {
 #ok {
 	text-transform:uppercase;
 	position:relative;
-	top:200px;
+	top:100px;
 	padding:20px;
 }
 
@@ -43,11 +43,15 @@ body {
 	height:601.75px;	
 }
 
+.mainRegister h1 {
+	text-align:center;
+}
+
 form#register {
 	width:360px;
 	text-align:center;
 	padding:20px;
-	border:solid 1px #000;
+	border:groove 5px #FFF;
 }
 
 #register h1 {
