@@ -1,6 +1,6 @@
 <?php
-	if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		require_once "../avalondb.php";
+	if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bio']) ) {
+		@require_once "../avalondb.php";
 		$query = "INSERT INTO member(firstName,lastName,username,password,bio) "
 					."VALUES(?,?,?,?,?)";
 		$stmt = $conn->prepare($query);
@@ -8,6 +8,8 @@
 							,$_POST['uname'],$pass,$_POST['bio']);
 		$pass = hash("md5","Arthur".$_POST['pass']."Guinevere");
 		$stmt->execute();
+		$stmt->close();
+		$conn->close();
 	}
 ?>
 <!DOCTYPE PHP>
@@ -45,10 +47,38 @@
 					});
 				});
 				
+				$("#luname").on('input',function() {
+					$.ajax({
+						url : "controller.php",
+						method : "POST",
+						data : {
+							'request' : 'username',
+							'uname' : $("#luname").val()
+						},
+						success : function(a) {
+							a = a != 'true';
+							$("#exists").text( a ? "Username is not registered" 
+												: "" );
+						} 
+					});
+				});
+				
 				$("form#register").submit(function() {
 					var errors = $("#taken").text();
 					errors += (errors.length == 0 ? "" : "<br />") 
 								+ $("#match").text();
+
+					if( errors.length != 0 ) {
+						$("#promptContent").html(errors);
+						$("#prompt").show(500);
+						return false;
+					} else {
+						return true;
+					}
+				});
+
+				$("form#login").submit(function() {
+					var errors = $("#exists").text();
 
 					if( errors.length != 0 ) {
 						$("#promptContent").html(errors);
@@ -102,6 +132,34 @@
 					</td></tr>
 					<tr><td>
 							<input type="submit" value="Register" id="register" />
+					</td></tr>
+				</table>
+			</form>
+			<form id="login" action="index.php" method="post">
+				<table>
+					<tr><h1>Login</h1></tr>
+					<tr><td>
+						<?php
+							$value = "";
+							if( $_SESSION['faillogin'] ) {
+								$value = 'value="'.$_POST['uname'].'"';
+							}
+							echo '<input type="text" class="input" placeholder="Username" name="uname" id="luname" '.$value.' required />';
+						?>
+					</td></tr>
+					<tr><td>
+						<span id="exists"></span>
+					</td></tr>
+					<tr><td>
+						<input type="password" class="input" placeholder="Password" name="pass" id="lpass" required />
+					</td></tr>
+					<tr><td>
+						<span id="invalid">
+							<?php echo ($_SESSION['faillogin'] ? "Incorrect Password" : ""); ?>
+						</span>
+					</td></tr>
+					<tr><td>
+						<input type="submit" value="Login" id="login" />
 					</td></tr>
 				</table>
 			</form>

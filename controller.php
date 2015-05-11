@@ -8,7 +8,9 @@
 		$stmt = $conn->prepare($query);
 		$stmt->bind_param("s",$uname);
 		$stmt->execute();
-		return ( $stmt->fetch() ? "true" : "false" );
+		$ret = ( $stmt->fetch() ? "true" : "false" );
+		$stmt->close();
+		return $ret;
 	}
 	
 	switch( $_POST['request'] ) {
@@ -17,4 +19,6 @@
 			break;
 		default;
 	}
+	
+	$conn->close();
 ?>
