@@ -8,8 +8,16 @@
 	<body>
 		<header>
 			<div id="title"><h1><img src="Assets/AVALON.png"> Online</h1></div>
-			<ul>
-				<li><a href="hostGame.php">Host Game</a></li>
-				<li><a href="logout.php">Logout</a></li>
-			</ul>
+			<?php 
+				if( isset($_SESSION['avalonuser']) ) {
+					echo "<ul>";
+					if( $_SESSION['moder'] ) {
+						echo "<li><a href=\"moderator.php\">Moderator Panel"
+								."</a></li>";
+					}
+					echo "<li><a href=\"hostGame.php\">Host Game</a></li>\n"
+							."<li><a href=\"logout.php\">Logout</a></li>\n"
+							."</ul>";
+				}
+			?>
 		</header>

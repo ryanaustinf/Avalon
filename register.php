@@ -1,5 +1,6 @@
 <?php
 	if( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bio']) ) {
+		$_SESSION['faillogin'] = false;
 		@require_once "../avalondb.php";
 		$query = "INSERT INTO member(firstName,lastName,username,password,bio) "
 					."VALUES(?,?,?,?,?)";
@@ -109,8 +110,8 @@
 			<div id="promptContent"></div>
 			<button id="ok">Ok</button>
 		</div>
+		<?php require_once "header.php";?>
 		<div id="mainContent" class="mainRegister">
-			<h1>Welcome to Avalon Online</h1>
 			<form id="register" action="register.php" method="post">
 				<table>
 					<tr><h1>Register</h1></tr>
