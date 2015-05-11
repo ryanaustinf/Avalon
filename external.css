@@ -95,7 +95,7 @@ header {
 	background-color:#8E8073;
 	width:800px;
 	margin:10px auto;
-	padding:20px 50px;
+	padding:20px 50px 1px;
 	text-align:center;
 }
 
@@ -109,7 +109,7 @@ header h1 {
 }
 
 header ul {
-	text-align:right;
+	padding:5px 5px 1px;
 }
 
 header li {
