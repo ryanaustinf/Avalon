@@ -141,6 +141,10 @@ header a {
 	padding:20px 10px;
 }
 
+#games th {
+	width:390px;
+} 
+
 #ongoing {
 	font-weight:bold;
 	font-size:2em;

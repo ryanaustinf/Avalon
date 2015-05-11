@@ -7,7 +7,11 @@
 	</head>
 	<body>
 		<header>
-			<div id="title"><h1><img src="Assets/AVALON.png"> Online</h1></div>
+			<div id="title">
+				<h1>
+					<a href="/Avalon"><img src="Assets/AVALON.png"> Online</a>
+				</h1>
+			</div>
 			<?php 
 				if( isset($_SESSION['avalonuser']) ) {
 					echo "<ul>";
