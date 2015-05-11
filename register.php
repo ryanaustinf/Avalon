@@ -27,40 +27,49 @@
 				} 
 				return (p1 != p2 ? "Passwords don't match." : "");
 			}
+
 			$(document).ready(function() {
 				$("#prompt").hide();
 				$("#pass").on('input',checkPass);
 				$("#cpass").on('input',checkPass);
 				
 				$("#uname").on('input',function() {
-					$.ajax({
-						url : "controller.php",
-						method : "POST",
-						data : {
-							'request' : 'username',
-							'uname' : $("#uname").val()
-						},
-						success : function(a) {
-							a = a == 'true';
-							$("#taken").text( a ? "Username is taken" : "" );
-						} 
-					});
+					if( $("#uname").val().length > 0 ) {
+						$.ajax({
+							url : "controller.php",
+							method : "POST",
+							data : {
+								'request' : 'username',
+								'uname' : $("#uname").val()
+							},
+							success : function(a) {
+								a = a == 'true';
+								$("#taken").text( a ? "Username is taken" : "" );
+							} 
+						});
+					} else {
+						$("#taken").text("");
+					}
 				});
 				
 				$("#luname").on('input',function() {
-					$.ajax({
-						url : "controller.php",
-						method : "POST",
-						data : {
-							'request' : 'username',
-							'uname' : $("#luname").val()
-						},
-						success : function(a) {
-							a = a != 'true';
-							$("#exists").text( a ? "Username is not registered" 
-												: "" );
-						} 
-					});
+					if( $("#luname").val().length > 0 ) {
+						$.ajax({
+							url : "controller.php",
+							method : "POST",
+							data : {
+								'request' : 'username',
+								'uname' : $("#luname").val()
+							},
+							success : function(a) {
+								a = a != 'true';
+								$("#exists").text( a ? "Username is not regis" 
+													+ "tered" : "" );
+							} 
+						});
+					} else {
+						$("#exists").text("");
+					}
 				});
 				
 				$("form#register").submit(function() {
