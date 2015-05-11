@@ -15,7 +15,10 @@
 						echo "<li><a href=\"moderator.php\">Moderator Panel"
 								."</a></li>";
 					}
-					echo "<li><a href=\"hostGame.php\">Host Game</a></li>\n"
+					echo "<li><a href=\"friends.php\">Friends</a></li>\n"
+							."<li><a href=\"community.php\">Community Statisti"
+							."cs</a></li>\n"
+							."<li><a href=\"hostGame.php\">Host Game</a></li>\n"
 							."<li><a href=\"logout.php\">Logout</a></li>\n"
 							."</ul>";
 				}

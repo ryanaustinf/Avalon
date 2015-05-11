@@ -145,7 +145,7 @@
 					</td></tr>
 				</table>
 			</form>
-			<form id="login" action="index.php" method="post">
+			<form id="login" action="/Avalon/" method="post">
 				<table>
 					<tr><h1>Login</h1></tr>
 					<tr><td>
