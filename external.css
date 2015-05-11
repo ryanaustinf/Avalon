@@ -90,6 +90,61 @@ input#register, input#login, #ok {
 	height:200px;
 }
 
+/*for header*/
+header {
+	background-color:#8E8073;
+	width:800px;
+	margin:10px auto;
+	padding:10px 50px;
+	text-align:center;
+}
+
+header img {
+	height:100px;
+}
+
+header h1 {
+	font-size:4em;
+}
+
+header ul {
+	text-align:right;
+}
+
+header li {
+	background-color:#F8BA53;
+	display:inline;
+	margin:10px 5px;
+	border:#8E8537 outset 2px;
+	padding:5px;
+}
+
+header a {
+	text-decoration:none;
+	color:#FFF;
+	font-weight:bold;
+}
+
+/*for home page*/
+#games {
+	text-align:center;
+}
+
+#games li {
+	list-style-type:none;
+	padding:10px;
+}
+
+#games table {
+	width:800px;
+	padding:20px 10px;
+}
+
+#ongoing {
+	font-weight:bold;
+	font-size:2em;
+}
+
 /*for list box*/
 #listBox {
 	height:222px;

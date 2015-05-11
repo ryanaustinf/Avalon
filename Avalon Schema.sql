@@ -42,7 +42,13 @@ CREATE TABLE IF NOT EXISTS `game`(
     minPlayers INT NOT NULL DEFAULT 5,
     maxPlayers INT NOT NULL DEFAULT 10,
     targeting BOOLEAN NOT NULL DEFAULT FALSE,
-    ladyOfTheLake BOOLEAN NOT NULL DEFAULT FALSE
+    ladyOfTheLake BOOLEAN NOT NULL DEFAULT FALSE,
+    host INT,
+    CONSTRAINT gamefk_1
+		FOREIGN KEY (`host`)
+        REFERENCES member(`id`)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
 ) engine = innoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;

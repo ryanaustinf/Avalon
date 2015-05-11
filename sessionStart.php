@@ -1,5 +1,8 @@
 <?php
+	//start session
 	session_start();
+	
+	//if logged in, set session variables
 	if( isset($_COOKIE['avalonuser']) ) {
 		$_SESSION['avalonuser'] = $_COOKIE['avalonuser'];
 	}

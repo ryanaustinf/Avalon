@@ -7,5 +7,9 @@
 	</head>
 	<body>
 		<header>
-			<a href="logout.php">Logout</a>
+			<div id="title"><h1><img src="Assets/AVALON.png"> Online</h1></div>
+			<ul>
+				<li><a href="hostGame.php">Host Game</a></li>
+				<li><a href="logout.php">Logout</a></li>
+			</ul>
 		</header>
