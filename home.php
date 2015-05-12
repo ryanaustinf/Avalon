@@ -18,7 +18,9 @@
 												." maxPlayers FROM game G,"
 												." member M WHERE G.host ="
 												." M.id AND G.friendsOnly"
-												." = FALSE";
+												." = FALSE AND cancelled = "
+												."FALSE AND ongoing = FALSE"
+												." AND ended IS NULL";
 									$stmt = $conn->prepare($query);
 									$stmt->bind_result($id,$uname,$min
 														,$max);
@@ -42,7 +44,9 @@
 												." maxPlayers FROM game G,"
 												." member M WHERE G.host ="
 												." M.id AND G.friendsOnly"
-												." = TRUE";
+												." = TRUE AND cancelled = "
+												."FALSE AND ongoing = FALSE"
+												." AND ended IS NULL";
 									$stmt = $conn->prepare($query);
 									$stmt->bind_result($id,$uname,$min
 														,$max);
