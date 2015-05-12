@@ -201,8 +201,9 @@ header a {
 #gameDetails {
 	background-color:#1B1C15;
 	color:#FFF;
-	width:800px;
+	width:500px;
 	text-align:center;
+	margin:auto;
 }
 
 #gameDetails #head {
@@ -210,7 +211,7 @@ header a {
 }
 
 #gameDetails th {
-	width:390px;
+	width:247px;
 	text-align:right;
 	padding:10px;
 }
@@ -220,7 +221,7 @@ header a {
 }
 
 #gameDetails td {
-	width:390px;
+	width:247px;
 	text-align:left;
 	padding:10px;
 }
