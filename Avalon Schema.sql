@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `game`(
 CREATE TABLE IF NOT EXISTS `gamePlayers` (
 	gameId INT,
     memberId INT,
-    character VARCHAR(32) DEFAULT NULL,
+    `character` VARCHAR(32) DEFAULT NULL,
     immuneToLady BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (gameId, memberId),
     CONSTRAINT gamePlayersfk_1
@@ -68,6 +68,12 @@ CREATE TABLE IF NOT EXISTS `gamePlayers` (
         REFERENCES member(`id`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS `friends`(
+	fromMember INT NOT NULL,
+    toMember INT NOT NULL,
+    approved BOOLEAN DEFAULT NULL
 ) engine = innoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
