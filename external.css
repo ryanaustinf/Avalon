@@ -126,37 +126,44 @@ header a {
 }
 
 /*for home page*/
+#pending {
+	font-weight:bold;
+	font-size:2em;
+}
+
 #games {
 	text-align:center;
-}
-
-#games li {
-	list-style-type:none;
-	padding:10px;
-}
-
-#games table {
-	width:800px;
-	padding:20px 10px;
 }
 
 #games th {
 	width:390px;
 } 
 
-#games li {
+.gameList {
+	width:390px;
+	padding:10px;
+	border-spacing:0 10px;
+	border-collapse:separate;
+}
+
+.gameList td {
+	list-style-type:none;
+	padding:10px;
 	background-color:#1B1C15;
-	margin:2px 0;
+}
+
+#gameContainer {
+	width:800px;
+	padding:20px 10px;
+}
+
+#gameContainer td {
+	vertical-align:top;
 }
 
 #games a {
 	color:white;
 	text-decoration:none;
-}
-
-#ongoing {
-	font-weight:bold;
-	font-size:2em;
 }
 
 /*for hosting games*/

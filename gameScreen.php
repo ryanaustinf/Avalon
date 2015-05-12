@@ -31,7 +31,10 @@
 					}
 				?>
 				<tr><th colspan='2'><?php echo $fo ? "Friends-only" : "Community"; ?></th></tr>
-				<tr><th colspan='2'><?php echo "$min - $max players"; ?></th></tr>
+				<tr><th colspan='2'>
+					<?php echo ($min != $max ? "$min - $max": $max)
+								." players"; ?>
+				</th></tr>
 				<tr>
 					<th colspan='2'>Targeting <?php echo $target ? "enabled" : "disabled"; ?></th>
 				</tr>

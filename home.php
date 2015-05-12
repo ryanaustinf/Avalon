@@ -3,15 +3,15 @@
 ?>
 		<div id="mainContent">
 			<div id="games">
-				<div id="ongoing">Ongoing Games</div>
-				<table>
+				<div id="pending">Pending Games</div>
+				<table id="gameContainer">
 					<tr>
 						<th>Community Games</th>
 						<th>Friends' Games</th>
 					</tr>
 					<tr>
 						<td>
-							<ul id="community">
+							<table id="community" class="gameList">
 								<?php 
 									$query = "SELECT G.id, username, "
 												."minPlayers,"
@@ -26,18 +26,20 @@
 														,$max);
 									$stmt->execute();
 									while( $stmt->fetch() ) {
-										echo "<li><a href=\"game.php?gameid="
+										echo "<tr><td><a href=\"game.php?gameid="
 												."$id\">Game by $uname<br />"
-												."$min - $max players"
+												.($min != $max ? "$min - $max" 
+													: $max)
+												." players"
 												."</a>"
-												."</li>";
+												."</td></tr>";
 									} 
 									$stmt->close();
 								?>
-							</ul>
+							</table>
 						</td>
 						<td>
-							<ul id="friends">
+							<table id="friends" class="gameList">
 								<?php 
 									$query = "SELECT G.id, username, "
 												."minPlayers,"
@@ -52,16 +54,18 @@
 														,$max);
 									$stmt->execute();
 									while( $stmt->fetch() ) {
-										echo "<li><a href=\"game.php?gameid="
+										echo "<tr><td><a href=\"game.php?gameid="
 												."$id\">Game by $uname<br />"
-												."$min - $max players"
+												.($min != $max ? "$min - $max" 
+													: $max)
+												." players"
 												."</a>"
-												."</li>";
+												."</td></tr>";
 									} 
 									$stmt->close();
 									$conn->close();
 								?>
-							</ul>
+							</table>
 						</td>
 					</tr>
 				</table>
