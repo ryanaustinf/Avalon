@@ -44,6 +44,7 @@
 			} else {
 				$admin = 0;
 			}
+			$stmt->close();
 			
 			setcookie("avalonuser",$_POST['uname'], time() + 86400 * 14,
 					"/Avalon" );
