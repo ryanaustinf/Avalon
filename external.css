@@ -33,9 +33,18 @@ body {
 
 #ok {
 	text-transform:uppercase;
-	position:relative;
-	top:100px;
-	padding:20px;
+	/*position:relative;
+	top:100px;*/
+	padding:10px 20px;
+}
+
+.goldButton {
+	color:#FFF;
+	background-color:#F8BA53;
+	width:100px;
+	border:none;
+	font-weight:bold;
+	padding:5px;
 }
 
 /*for register.php*/
@@ -66,15 +75,6 @@ form#login {
 
 #invalid {
 	color:#FF0000;
-}
-
-input#register, input#login, #ok {
-	color:#FFF;
-	background-color:#F8BA53;
-	width:100px;
-	border:none;
-	font-weight:bold;
-	padding:5px;
 }
 
 #biolabel {
@@ -116,8 +116,7 @@ header li {
 	background-color:#F8BA53;
 	display:inline;
 	margin:10px 5px;
-	border:#8E8537 outset 2px;
-	padding:5px 10px;
+	padding:7px 12px;
 }
 
 header a {
@@ -145,48 +144,83 @@ header a {
 	width:390px;
 } 
 
+#games li {
+	background-color:#1B1C15;
+	margin:2px 0;
+}
+
+#games a {
+	color:white;
+	text-decoration:none;
+}
+
 #ongoing {
 	font-weight:bold;
 	font-size:2em;
 }
 
-/*for list box*/
-#listBox {
-	height:222px;
-	margin-bottom:10px;
+/*for hosting games*/
+#hostGame {
+	border:2px solid #FFF;
 }
 
-.highlight {
-	background-color:rgb(232,242,254);
+#hostTable {
+	width:800px;
+	text-align:center;
 }
 
-p[id^="left"], p[id^="right"] {
-	margin:0;
+#hostTable tr {
+	width:390px;
 }
 
-#leftBox, #rightBox {
-	width:300px;
-	min-height: 200px;
-	border: #000 solid 1px;
+#hostTable td, #hostTable th {
+	padding:20px 10px;
+}
+
+[id$="Players"] {
+	display:inline-block;
+	width:20px;
+	padding:5px;
+	text-align:center;
+}
+
+.hostLabel {
+	text-align:right;
+}
+
+.hostLeft {
+	text-align:left;
+}
+
+[id^="fewer"],[id^="more"] {
+	width:20px;
+	font-weight:normal;
+}
+
+/*for game details*/
+#gameDetails {
+	background-color:#1B1C15;
+	color:#FFF;
+	width:800px;
+	text-align:center;
+}
+
+#gameDetails #head {
+	font-size:2em;
+}
+
+#gameDetails th {
+	width:390px;
+	text-align:right;
 	padding:10px;
 }
 
-#listButtons {
+#gameDetails th[colspan="2"] {
 	text-align:center;
-	width:40px;
-	position:relative;
-	top:-160px;
-	left:340px;
 }
 
-#rightBox {
-	position:relative;
-	top:-322px;
-	left:400px;
-}
-
-#listButtons button{
-	width:35px;
-	display:block;
-	margin: 3px auto;
+#gameDetails td {
+	width:390px;
+	text-align:left;
+	padding:10px;
 }

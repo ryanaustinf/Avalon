@@ -12,19 +12,26 @@
 					<a href="/Avalon"><img src="Assets/AVALON.png"> Online</a>
 				</h1>
 			</div>
-			<?php 
-				if( isset($_SESSION['avalonuser']) ) {
-					echo "<ul>";
-					if( $_SESSION['moder'] ) {
-						echo "<li><a href=\"moderator.php\">Moderator Panel"
-								."</a></li>";
-					}
-					echo "<li><a href=\"friends.php\">Friends</a></li>\n"
-							."<li><a href=\"community.php\">Community Statisti"
-							."cs</a></li>\n"
-							."<li><a href=\"hostGame.php\">Host Game</a></li>\n"
-							."<li><a href=\"logout.php\">Logout</a></li>\n"
-							."</ul>";
+		<?php 
+			if( isset($_SESSION['avalonuser']) ) {
+				echo "<ul>\n";
+				if( $_SESSION['moder'] ) {
+					echo "\t\t\t\t<li><a href=\"moderator.php\">Moderator"
+							." Panel</a></li>\n";
 				}
-			?>
-		</header>
+				echo "\t\t\t\t<li><a href=\"friends.php\">Friends</a>"
+						."</li>\n"
+						."\t\t\t\t<li><a href=\"community.php\">Community"
+						." Statistics</a></li>\n";
+				
+				if( $_SERVER['PHP_SELF'] != '/Avalon/hostGame.php' ) {
+					echo "\t\t\t\t<li><a href=\"hostGame.php\">Host Game"
+							."</a></li>\n";
+				}
+						
+				echo "\t\t\t\t<li><a href=\"logout.php\">Logout"
+						."</a></li>\n"
+						."\t\t\t</ul>\n";
+			}
+		?>
+</header>

@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `game`(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     hosted DATETIME NOT NULL DEFAULT NOW(),
     ended DATETIME DEFAULT NULL,
+    ongoing BOOLEAN NOT NULL DEFAULT FALSE,
     cancelled BOOLEAN NOT NULL DEFAULT FALSE,
     friendsOnly BOOLEAN NOT NULL DEFAULT FALSE,
     minPlayers INT NOT NULL DEFAULT 5,
@@ -49,6 +50,24 @@ CREATE TABLE IF NOT EXISTS `game`(
         REFERENCES member(`id`)
         ON UPDATE CASCADE
         ON DELETE SET NULL
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS `gamePlayers` (
+	gameId INT,
+    memberId INT,
+    character VARCHAR(32) DEFAULT NULL,
+    immuneToLady BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (gameId, memberId),
+    CONSTRAINT gamePlayersfk_1
+		FOREIGN KEY(`gameId`)
+        REFERENCES game(`id`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+	CONSTRAINT gamePlayersfk_2
+		FOREIGN KEY(`memberId`)
+        REFERENCES member(`id`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) engine = innoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
