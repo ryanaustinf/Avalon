@@ -282,8 +282,25 @@ header a {
 
 #userInfo th {
 	text-align:right;
+	width:247px;
+	vertical-align:top;
 }
 
 #userInfo td {
 	text-align:left;
+	width:247px;
+}
+
+#userActions {
+	text-align:center;
+}
+
+ul#userActions {
+	margin:auto;
+}
+
+#userActions li {
+	display:inline;
+	margin:5px;
+	width:50px;
 }

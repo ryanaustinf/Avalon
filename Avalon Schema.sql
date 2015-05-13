@@ -73,7 +73,8 @@ CREATE TABLE IF NOT EXISTS `gamePlayers` (
 CREATE TABLE IF NOT EXISTS `friends`(
 	fromMember INT NOT NULL,
     toMember INT NOT NULL,
-    approved BOOLEAN DEFAULT NULL
+    approved BOOLEAN DEFAULT NULL,
+    PRIMARY KEY(`fromMember`,`toMember`)
 ) engine = innoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
