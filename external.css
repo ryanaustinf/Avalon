@@ -318,3 +318,16 @@ ul#userActions {
 	margin:5px;
 	width:50px;
 }
+
+/*for friend requests*/
+.friendRequests [id^='friend'] {
+	width:300px;
+	background-color:#1B1C15;
+	color:#FFF;
+	padding:20px 50px;
+	margin:10px auto;
+}
+
+[id^="friend"] [id^="accept"] {
+	margin:2px 5px;
+}

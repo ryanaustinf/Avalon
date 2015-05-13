@@ -33,19 +33,20 @@
 				
 				require_once "../avalondb.php";
 				
-				
-				$query = "SELECT COUNT(fromMember) FROM friends F, member M "
-						 	."WHERE F.toMember = M.id AND M.username = ? AND "
-						 	."approved IS NULL";
-				$stmt2 = $conn->prepare($query);
-				$stmt2->bind_param("s",$_SESSION['avalonuser'] );
-				$stmt2->bind_result($ctr);
-				$stmt2->execute();
-				$stmt2->fetch();
-				$stmt2->close();
-				
-				echo "\t\t\t\t<li><a href=\"requests.php\">Friend Requests"
-						."($ctr)</a></li>\n";
+				if( $_SERVER['PHP_SELF'] != '/Avalon/requests.php' ) {
+					$query = "SELECT COUNT(fromMember) FROM friends F, member "
+								."M WHERE F.toMember = M.id AND M.username = ?"
+								." AND approved IS NULL";
+					$stmt2 = $conn->prepare($query);
+					$stmt2->bind_param("s",$_SESSION['avalonuser'] );
+					$stmt2->bind_result($ctr);
+					$stmt2->execute();
+					$stmt2->fetch();
+					$stmt2->close();
+					
+					echo "\t\t\t\t<li><a href=\"requests.php\">Friend Requests"
+							."($ctr)</a></li>\n";
+				}
 				
 				echo "\t\t\t\t<li><a href=\"community.php\">Community"
 						." Statistics</a></li>\n";

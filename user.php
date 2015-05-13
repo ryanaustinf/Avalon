@@ -9,11 +9,12 @@
 	$stmt->bind_param("s",$_GET['uname']);
 	$stmt->bind_result($fname,$lname,$uname,$bio,$gameCtr,$moder,$admin);
 	$stmt->execute();
-	require_once "header.php";
 	if($stmt->fetch()) {
 		$stmt->close();
+		require_once "header.php";
 		require_once "userTemplate.php";
 	} else {
+		require_once "header.php";
 		echo "<div id=\"mainContent\">User does not exist</div>";
 	}
 ?>

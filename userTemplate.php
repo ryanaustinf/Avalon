@@ -66,6 +66,7 @@
 			<td id="userActions" colspan="2">
 				<ul id="userActions">
 					<?php
+						$blocked = false;
 						if( $uname != $_SESSION['avalonuser'] ) {
 							$query = "SELECT M1.username AS `fromMember`, "
 										."M2.username AS `toMember`, approved "
@@ -85,6 +86,7 @@
 									echo "Friended";
 								} elseif ($status === 0 ) {
 									echo "This member has blocked you";
+									$blocked = true;
 								}
 							} else {
 								$stmt->bind_param("ss",$uname
@@ -120,32 +122,11 @@
 					<!-- <li><button id="friend">Flag User</button></li> -->
 				</ul>
 			</td>
-		<tr>
-			<th>Name:</th>
-			<td><?php echo "$fname $lname"; ?></td>
 		</tr>
-		<tr>
-			<th>Bio:</th>
-			<td><?php echo $bio; ?>
-		</tr>
-		<tr>
-			<th>Games Played:</th>
-			<td><?php echo $gameCtr; ?>
-		</tr>
-		<tr>
-			<th>Player Level:</th>
-			<td><?php echo ($gameCtr >=250 ? "Gold" : ( $gameCtr >= 125 
-								? "Silver" : ( $gameCtr >= 50 ? "Bronze" 
-								: "Normal" ) ) ); ?></td>
-		</tr>
-		<tr>
-			<th>User Level:</th>
-			<td>
-				<?php 
-					echo ($admin !== null ? "Admin" : ( $moder != null 
-							? "Moderator" : "Regular Member") );
-					$conn->close();
-				?>
-		</tr>
+		<?php 
+			if( !$blocked ) {
+				require_once "userInfo.php";
+			}
+		?>
 	</table>
 </div>
