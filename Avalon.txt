@@ -7,8 +7,8 @@ Register - 8 hours
 Login - 8 hours
 Host Game - 8 hours
 Friend User  4 hours
---------------DONE----------------
 Join Game - 4 hours
+--------------DONE----------------
 Begin Game - 16 hours
 
 ---------------------------------------
