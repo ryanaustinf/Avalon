@@ -28,7 +28,7 @@
 				$("#prompt").hide();
 				
 				updatePlayers();
-				//var update = setInterval(updatePlayers,1000);
+				var update = setInterval(updatePlayers,1000);
 
 				$("#join").click(function() {
 					$.ajax({
@@ -113,13 +113,38 @@
 										."<a href=\"game.php?gameid=$gameId\">"
 										."Click here to go to its page</a>";
 							}
+							$stmt->close();
 						} else {
-							echo "<button id=\"leave\" "
-									."class=\"goldButton\">Leave Game"
-									."</button>";
-							echo "<button id=\"join\" class=\"goldButton\">"
-									."Join Game</button>";
-							echo "<script>$(\"#leave\").hide();</script>";
+							$stmt->close();
+							$query = "SELECT COUNT(memberId) FROM gameplayers"
+										." WHERE gameId = ?";
+							$stmt = $conn->prepare($query);
+							$stmt->bind_param("i",$_GET['gameid']);
+							$stmt->bind_result($players);
+							$stmt->execute();
+							$stmt->fetch();
+							$stmt->close();
+							
+							$query = "SELECT maxPlayers FROM gameplayers GP, "
+										."game G WHERE GP.gameId = G.id AND "
+										."gameId = ?";
+							$stmt = $conn->prepare($query);
+							$stmt->bind_param("i",$_GET['gameid']);
+							$stmt->bind_result($max);
+							$stmt->execute();
+							$stmt->fetch();
+							$stmt->close();
+								
+							if( $max == $players ) {
+								echo "Maximum reached.";
+							} else {
+								echo "<button id=\"leave\" "
+										."class=\"goldButton\">Leave Game"
+										."</button>";
+								echo "<button id=\"join\" class=\"goldButton\">"
+										."Join Game</button>";
+								echo "<script>$(\"#leave\").hide();</script>";
+							}
 						}
 					?>
 				</th></tr>
