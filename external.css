@@ -99,6 +99,27 @@ header {
 	text-align:center;
 }
 
+#title {
+	margin-bottom:0;
+}
+
+#username {
+	height:50px;
+	width:100%;
+	text-align:right;
+	position:relative;
+	margin-top:0;
+}
+
+#username a {
+	background-color:#1B1C15;
+	color:#FFF;
+	position:absolute;
+	right:70px;
+	font-size:0.9em;
+	padding:10px 5px;
+}
+
 header img {
 	height:100px;
 }
@@ -150,6 +171,7 @@ header a {
 	list-style-type:none;
 	padding:10px;
 	background-color:#1B1C15;
+	position:relative;
 }
 
 #gameContainer {
@@ -161,9 +183,17 @@ header a {
 	vertical-align:top;
 }
 
-#games a {
+#games a, #playerRow a {
 	color:white;
 	text-decoration:none;
+}
+
+.goldButton[href^="game.php"] {
+	position:absolute;
+	top:10px;
+	right:10px;
+	display:block;
+	padding:5px 10px;
 }
 
 /*for hosting games*/
@@ -231,4 +261,29 @@ header a {
 	width:247px;
 	text-align:left;
 	padding:10px;
+}
+
+/*for user info*/
+#userInfo {
+	background-color:#1B1C15;
+	color:#FFF;
+	width:500px;
+	text-align:center;
+	margin:auto;
+}
+
+#userInfo th[colspan="2"] {
+	text-align:center;
+}
+
+#userInfo th, #userInfo td {
+	padding:10px;
+}
+
+#userInfo th {
+	text-align:right;
+}
+
+#userInfo td {
+	text-align:left;
 }

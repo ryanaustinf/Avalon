@@ -12,7 +12,13 @@
 					<a href="/Avalon"><img src="Assets/AVALON.png"> Online</a>
 				</h1>
 			</div>
-		<?php 
+		<?php
+			if( isset($_SESSION['avalonuser'] ) ) { 
+				echo "<div id=\"username\">\n<a href=\"user.php?uname="
+						.$_SESSION['avalonuser']."\">Welcome, "
+						.$_SESSION['avalonuser']."</h5>\n</div>";
+			}
+		 
 			if( isset($_SESSION['avalonuser']) ) {
 				echo "<ul>\n";
 				if( $_SESSION['moder'] ) {

@@ -26,12 +26,15 @@
 														,$max);
 									$stmt->execute();
 									while( $stmt->fetch() ) {
-										echo "<tr><td><a href=\"game.php?gameid="
-												."$id\">Game by $uname<br />"
+										echo "<tr><td>Game by <a href=\"user"
+												.".php?uname=$uname\">$uname"
+												."</a><br />"
 												.($min != $max ? "$min - $max" 
 													: $max)
-												." players"
-												."</a>"
+												." players<br />"
+												."<a href=\"game.php?gameid="
+												."$id\" class=\"goldButton\">"
+												."View Game</a>"
 												."</td></tr>";
 									} 
 									$stmt->close();
@@ -54,12 +57,15 @@
 														,$max);
 									$stmt->execute();
 									while( $stmt->fetch() ) {
-										echo "<tr><td><a href=\"game.php?gameid="
-												."$id\">Game by $uname<br />"
+										echo "<tr><td>Game by <a href=\"user"
+												.".php?uname=$uname\">$uname"
+												."</a><br />"
 												.($min != $max ? "$min - $max" 
 													: $max)
-												." players"
-												."</a>"
+												." players<br />"
+												."<a href=\"game.php?gameid="
+												."$id\" class=\"goldButton\">"
+												."View Game</a>"
 												."</td></tr>";
 									} 
 									$stmt->close();

@@ -5,8 +5,13 @@
 		$query = "INSERT INTO member(firstName,lastName,username,password,bio) "
 					."VALUES(?,?,?,?,?)";
 		$stmt = $conn->prepare($query);
+		$bio = "";
+		for( $i = 0; $i < strlen($_POST['bio']); $i++ ) {
+			$c = substr($_POST['bio'],$i,1);
+			$bio .= ( $c === "\n" ? "<br />" : $c );
+		}
 		$stmt->bind_param("sssss",$_POST['fname'],$_POST['lname']
-							,$_POST['uname'],$pass,$_POST['bio']);
+							,$_POST['uname'],$pass,$bio);
 		$pass = hash("md5","Arthur".$_POST['pass']."Guinevere");
 		$stmt->execute();
 		$stmt->close();

@@ -41,7 +41,7 @@
 				<tr>
 					<th colspan='2'>Lady of the Lake <?php echo $lady ? "enabled" : "disabled"; ?></th>
 				</tr>
-				<tr>
+				<tr id="playerRow">
 					<th>Players:</th>
 					<?php 
 						$query = "SELECT username FROM gamePlayers GP, "
@@ -52,10 +52,12 @@
 						$stmt->bind_result($uname);
 						$stmt->execute();
 						$stmt->fetch();
-						echo "<td>$uname</td>\n</tr>";
+						echo "<td><a href=\"user.php?uname=$uname\">$uname"
+								."</a></td>\n</tr>";
 						
 						while( $stmt->fetch() ) {
-							echo "<tr><th></th><td>$uname</td></tr>";
+							echo "<tr><th></th><td><a href=\"user.php?uname="
+									."$uname\">$uname</a></td></tr>";
 						}
 					?>
 			</table>
