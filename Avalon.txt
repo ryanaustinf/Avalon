@@ -6,8 +6,8 @@ Iteration 1
 Register - 8 hours
 Login - 8 hours
 Host Game - 8 hours
---------------DONE----------------
 Friend User  4 hours
+--------------DONE----------------
 Join Game - 4 hours
 Begin Game - 16 hours
 

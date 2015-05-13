@@ -43,23 +43,25 @@
 				</tr>
 				<tr id="playerRow">
 					<th>Players:</th>
-					<?php 
-						$query = "SELECT username FROM gamePlayers GP, "
-									."member M WHERE GP.gameId = ? "
-									."AND M.id = GP.memberId";
-						$stmt = $conn->prepare($query);
-						$stmt->bind_param("i",$_GET['gameid']);
-						$stmt->bind_result($uname);
-						$stmt->execute();
-						$stmt->fetch();
-						echo "<td><a href=\"user.php?uname=$uname\">$uname"
-								."</a></td>\n</tr>";
-						
-						while( $stmt->fetch() ) {
-							echo "<tr><th></th><td><a href=\"user.php?uname="
-									."$uname\">$uname</a></td></tr>";
-						}
-					?>
+					<td>
+						<ul id="playerList">
+							<?php 
+								$query = "SELECT username FROM gamePlayers GP, "
+											."member M WHERE GP.gameId = ? "
+											."AND M.id = GP.memberId";
+								$stmt = $conn->prepare($query);
+								$stmt->bind_param("i",$_GET['gameid']);
+								$stmt->bind_result($uname);
+								$stmt->execute();
+								$stmt->fetch();
+								while( $stmt->fetch() ) {
+									echo "<li><a href=\"user.php?uname="
+											."$uname\">$uname</a></li>";
+								}
+							?>
+						</ul>
+					</td>
+				</tr>
 			</table>
 		</div>
 <?php

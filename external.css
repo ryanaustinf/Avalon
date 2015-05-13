@@ -114,10 +114,20 @@ header {
 #username a {
 	background-color:#1B1C15;
 	color:#FFF;
-	position:absolute;
-	right:70px;
 	font-size:0.9em;
 	padding:10px 5px;
+}
+
+#username a[href^="user"] {
+	position:absolute;
+	top:15px;
+	right:135px;
+}
+
+#username a[href^="logout"] {
+	position:absolute;
+	top:15px;
+	right:70px;
 }
 
 header img {
@@ -135,7 +145,7 @@ header ul {
 
 header li {
 	background-color:#F8BA53;
-	display:inline;
+	display:inline-block;
 	margin:10px 5px;
 	padding:7px 12px;
 }
@@ -261,6 +271,10 @@ header a {
 	width:247px;
 	text-align:left;
 	padding:10px;
+}
+
+#playerRow th {
+	vertical-align:top;
 }
 
 /*for user info*/
