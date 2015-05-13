@@ -84,6 +84,46 @@ function acceptRequest($from,$to) {
 		$stmt->close();
 	}
 	
+	function getPlayers($gameId) {
+		global $conn;
+		
+		$query = "SELECT username FROM member M, gameplayers GP"
+					." WHERE GP.memberID = M.id AND GP.gameId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		$stmt->bind_result($uname);
+		$stmt->execute();
+		$players = array();
+		while($stmt->fetch()) {
+			$players[] = $uname;
+		}
+		$stmt->close();
+		
+		return json_encode($players);
+	}
+	
+	function joinGame($gameId,$uname) {
+		global $conn;
+		
+		$id = getId($uname); 
+		$query = "INSERT INTO gameplayers(gameId, memberId) VALUES (?,?)";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("ii",$gameId,$id);
+		$stmt->execute();
+		echo "$uname joined game $gameId";
+	}
+	
+	function leaveGame($gameId,$uname) {
+		global $conn;
+		
+		$id = getId($uname); 
+		$query = "DELETE FROM gameplayers WHERE gameId = ? AND memberId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("ii",$gameId,$id);
+		$stmt->execute();
+		echo "$uname left game $gameId";
+	}
+	
 	switch( $_POST['request'] ) {
 		case 'username':
 			echo checkUsername($_POST['uname']);
@@ -96,6 +136,15 @@ function acceptRequest($from,$to) {
 			break;
 		case 'block':
 			blockMember($_POST['from'],$_POST['to'],$_POST['insert']);
+			break;
+		case 'players':
+			echo getPlayers($_POST['game']);
+			break; 
+		case 'join':
+			joinGame($_POST['game'],$_POST['user']);
+			break;
+		case 'leave':
+			leaveGame($_POST['game'],$_POST['user']);
 			break;
 		default;
 	}

@@ -277,6 +277,12 @@ header a {
 	vertical-align:top;
 }
 
+#playerList li {
+	list-style-type:none;
+	position:relative;
+	left:-40px;
+}
+
 /*for user info*/
 #userInfo {
 	background-color:#1B1C15;

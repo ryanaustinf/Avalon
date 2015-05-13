@@ -64,15 +64,18 @@
 												."M1.id AND G.friendsOnly = "
 												."TRUE AND cancelled = FALSE"
 												." AND ongoing = FALSE AND "
-												."ended IS NULL AND M1.id "
+												."ended IS NULL AND (M1.id "
 												." IN (SELECT id FROM member "
 												."M2, friends F WHERE M2.id = "
 												."F.toMember AND F.fromMember " 
 												."= (SELECT id FROM member WHE"
 												."RE username = ?) AND approve"
-												."d = 1 )";
+												."d = 1 ) OR M1.id = (SELECT "
+												."id FROM member WHERE username"
+												." = ?))";
 									$stmt = $conn->prepare($query);
-									$stmt->bind_param("s"
+									$stmt->bind_param("ss"
+											,$_SESSION['avalonuser']
 											,$_SESSION['avalonuser']);
 									$stmt->bind_result($id,$uname,$min
 														,$max);
