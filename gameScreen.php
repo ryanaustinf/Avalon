@@ -28,7 +28,7 @@
 				$("#prompt").hide();
 				
 				updatePlayers();
-				var update = setInterval(updatePlayers,1000);
+				//var update = setInterval(updatePlayers,1000);
 
 				$("#join").click(function() {
 					$.ajax({
