@@ -3,26 +3,26 @@
 	require_once 'header.php';
 	require_once "../avalondb.php";
 	
-	$query = "SELECT id FROM member WHERE username = ?";
+	$query = "SELECT G.id, M2.username FROM game G, gameplayers GP, member M, "
+				."member M2 WHERE M2.id = G.host AND G.id = GP.gameId AND M.id"
+				." = GP.memberID AND G.cancelled = FALSE AND G.ended IS NULL "
+				."AND M.username = ?";
 	$stmt = $conn->prepare($query);
-	$stmt->bind_param("s",$_SESSION['avalonuser']);
-	$stmt->bind_result($id);
-	$stmt->execute();
-	$stmt->fetch();
-	$stmt->close();
-	
-	$query = "SELECT * FROM game WHERE host = ? AND cancelled = FALSE AND "
-				."ended IS NULL";
-	$stmt = $conn->prepare($query);
-	$stmt->bind_param("i",$id);
+	$stmt->bind_param("i",$_SESSION['avalonuser']);
+	$stmt->bind_result($game,$host);
 	$stmt->execute();
 	$pending = null;
+	$hosting=  null;
 	
 	if($stmt->fetch()) {
 		$pending = true;
+		if( $host == $_SESSION['avalonuser'] ) {
+			$hosting = true;
+		}
 	} else {
 		$pending = false;
 	}
+	$hosting = $hosting === null ? false : true;
 	
 	$stmt->close();
 	$conn->close();
@@ -53,8 +53,15 @@
 			$(document).ready(function() {
 				<?php 
 					if( $pending ) {
-						echo '$("#promptContent").text("You have a game '
-								.'pending.");';
+						$htmlStr = "";
+						if( $hosting ) {
+							$htmlStr .= "You are hosting a game<br />";
+						} else {
+							$htmlStr .= "You are part of a game<br />";
+						}
+						$htmlStr .= "<a href=\\\"game.php?gameid=$game\\\">"
+										."Click here to go to its page</a>";
+						echo "$(\"#promptContent\").html(\"$htmlStr\");";
 						echo '$("input#host").hide();';
 						echo '$("#ok").click(function() {'
 								.'location = "/Avalon";'
