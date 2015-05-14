@@ -124,6 +124,52 @@ function acceptRequest($from,$to) {
 		echo "$uname left game $gameId";
 	}
 	
+	function maxReached($gameId) {
+		global $conn;
+		
+		$query = "SELECT COUNT(memberId) FROM gameplayers"
+				." WHERE gameId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		$stmt->bind_result($players);
+		$stmt->execute();
+		$stmt->fetch();
+		$stmt->close();
+			
+		$query = "SELECT maxPlayers FROM game WHERE id = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		$stmt->bind_result($max);
+		$stmt->execute();
+		$stmt->fetch();
+		$stmt->close();
+		
+		return ($max - $players);
+	}
+	
+	function minReached($gameId) {
+		global $conn;
+		
+		$query = "SELECT minPlayers FROM game WHERE id = ?";
+ 		$stmt = $conn->prepare($query);
+ 		$stmt->bind_param("i",$gameId);
+ 		$stmt->bind_result($min);
+ 		$stmt->execute();
+ 		$stmt->fetch();
+ 		$stmt->close();
+		
+		$query = "SELECT COUNT(memberId) FROM gameplayers"
+				." WHERE gameId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		$stmt->bind_result($players);
+		$stmt->execute();
+		$stmt->fetch();
+		$stmt->close();
+			
+		return ($min - $players);
+	}
+	
 	switch( $_POST['request'] ) {
 		case 'username':
 			echo checkUsername($_POST['uname']);
@@ -145,6 +191,12 @@ function acceptRequest($from,$to) {
 			break;
 		case 'leave':
 			leaveGame($_POST['game'],$_POST['user']);
+			break;
+		case 'max':
+			echo maxReached($_POST['game']);
+			break;
+		case 'min':
+			echo minReached($_POST['game']);
 			break;
 		default;
 	}

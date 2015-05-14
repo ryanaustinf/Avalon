@@ -2,6 +2,10 @@
 		<script> 
 			var game = <?php echo $_GET['gameid']; ?>;
 			var user = "<?php echo $_SESSION['avalonuser']; ?>";
+			var watchMin = false;
+			var watchMax = false;
+			var join;
+			var begin;
 			
 			function updatePlayers() {
 				$.ajax({
@@ -23,13 +27,69 @@
 					}
 				});
 			}
+
+			function checkMax() {
+				if( watchMax ) {
+					$.ajax({
+						url : "controller.php",
+						method : "POST",
+						data : {
+							"request" : "max",
+							"game" : game
+						},
+						success : function( a ) {
+							if( a == 0 ) {
+								$("#notif").text("Max Reached");
+								$("#join").hide();
+							} else {
+								if(join) {
+									$("#notif").text(a + " slot"  
+														+ (a != 1 ? "s" : "" ) 
+														+ " remaining");
+									$("#join").show();
+									$("#leave").hide();
+								} else {
+									$("#notif").text("");
+									$("#join").hide();
+									$("#leave").show();
+								}
+							}
+						}
+					});
+				}
+			}
+		
+			function checkMin() {
+				if( watchMin ) {
+					$.ajax({
+						url : "controller.php",
+						method : "POST",
+						data : {
+							"request" : "min",
+							"game" : game
+						},
+						success : function( a ) {
+							if( a <= 0 ) {
+								$("#notif").html("");
+								$("#begin").show();
+							} else {
+								$("#notif").text("Missing " + a + " player"
+												+ ( a > 1 ? "s" : "" ) );
+								$("#begin").hide();
+							}
+						}
+					});
+				}
+			}
 		
 			$(document).ready(function() {
 				$("#prompt").hide();
 				
 				updatePlayers();
 				var update = setInterval(updatePlayers,1000);
-
+				var minInterval = setInterval(checkMin,1000);
+				var maxInterval = setInterval(checkMax,1000);
+					
 				$("#join").click(function() {
 					$.ajax({
 						url : "controller.php",
@@ -46,6 +106,7 @@
 							$("#prompt").show();
 							$("#join").hide();
 							$("#leave").show();
+							join = false;
 						}
 					});
 				});
@@ -66,6 +127,7 @@
 							$("#prompt").show();
 							$("#leave").hide();
 							$("#join").show();
+							join = true;
 						}
 					});
 				});
@@ -83,6 +145,7 @@
 			<table id="gameDetails">
 				<tr><th colspan='2' id="head">Game Details</th></tr>
 				<tr><th colspan='2' id="gameOptions">
+					<div id="notif"></div>
 					<?php 
 						$query = "SELECT G.id, M2.username FROM game G, "
 									."gameplayers GP, member M, member M2 "
@@ -95,9 +158,14 @@
 						$stmt->bind_result($gameId, $gameHost);
 						$stmt->execute();
 						if( $stmt->fetch() ) {
+							$stmt->close();
 							if($gameId == $_GET['gameid']) {
 								if( $gameHost == $_SESSION['avalonuser']) {
-									echo "You are hosting this game.";
+									echo "<button id=\"begin\" "
+											."class=\"goldButton\">Begin Game"
+											."</button>";
+									echo "<script>watchMin = true; checkMin();"
+											."</script>";
 								} else {
 									echo "<button id=\"leave\" "
 											."class=\"goldButton\">Leave Game"
@@ -106,45 +174,25 @@
 											."class=\"goldButton\">Join Game"
 											."</button>";
 									echo "<script>$(\"#join\").hide();"
-											."</script>";
+											."watchMax = true;join = false;"
+											."checkMax();</script>";
 								}
 							} else {
-								echo "You are already part of a game.<br />"
-										."<a href=\"game.php?gameid=$gameId\">"
-										."Click here to go to its page</a>";
+								echo "<script>$(\"#notif\").html('You are "
+										."already part of a game.<br />"
+										."<a href=\"game.php?gameid=$gameId"
+										."\">Click here to go to its page</a>"
+										."');</script>";
 							}
-							$stmt->close();
 						} else {
 							$stmt->close();
-							$query = "SELECT COUNT(memberId) FROM gameplayers"
-										." WHERE gameId = ?";
-							$stmt = $conn->prepare($query);
-							$stmt->bind_param("i",$_GET['gameid']);
-							$stmt->bind_result($players);
-							$stmt->execute();
-							$stmt->fetch();
-							$stmt->close();
-							
-							$query = "SELECT maxPlayers FROM gameplayers GP, "
-										."game G WHERE GP.gameId = G.id AND "
-										."gameId = ?";
-							$stmt = $conn->prepare($query);
-							$stmt->bind_param("i",$_GET['gameid']);
-							$stmt->bind_result($max);
-							$stmt->execute();
-							$stmt->fetch();
-							$stmt->close();
-								
-							if( $max == $players ) {
-								echo "Maximum reached.";
-							} else {
-								echo "<button id=\"leave\" "
-										."class=\"goldButton\">Leave Game"
-										."</button>";
-								echo "<button id=\"join\" class=\"goldButton\">"
-										."Join Game</button>";
-								echo "<script>$(\"#leave\").hide();</script>";
-							}
+							echo "<button id=\"leave\" "
+									."class=\"goldButton\">Leave Game"
+									."</button>";
+							echo "<button id=\"join\" class=\"goldButton\">"
+									."Join Game</button>";
+							echo "<script>$(\"#leave\").hide(); join = true; "
+									."watchMax = true; checkMax();</script>";
 						}
 					?>
 				</th></tr>

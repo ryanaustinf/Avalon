@@ -117,6 +117,10 @@
 											."utton></li>";
 								}
 							}
+						} else {
+							echo "<li><a href=\"edit.php\" class="
+									."\"goldButton\">Edit Profile"
+									."</a></li>";
 						}
 					?>
 					<!-- <li><button id="friend">Flag User</button></li> -->

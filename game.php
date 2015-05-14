@@ -39,10 +39,14 @@
  		require_once "header.php";
  		require_once "../avalondb.php";
  		
- 		$query = "SELECT hosted, ended, ongoing, cancelled, friendsOnly, minPlayers, maxPlayers, targeting, ladyOfTheLake, username As host FROM game G INNER JOIN member M ON G.host = M.id WHERE G.id = ?";
+ 		$query = "SELECT hosted, ended, ongoing, cancelled, friendsOnly, "
+ 					."minPlayers, maxPlayers, targeting, ladyOfTheLake, "
+ 					."username As host FROM game G INNER JOIN member M "
+ 					."ON G.host = M.id WHERE G.id = ?";
  		$stmt = $conn->prepare($query);
  		$stmt->bind_param("i",$_GET['gameid']);
- 		$stmt->bind_result($hosted,$ended,$ongoing,$cancel,$fo,$min,$max,$target,$lady,$host);
+ 		$stmt->bind_result($hosted,$ended,$ongoing,$cancel,$fo,$min,$max,$target
+ 							,$lady,$host);
  		$stmt->execute();
  		$stmt->fetch();
  		$stmt->close();
