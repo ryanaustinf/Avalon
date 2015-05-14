@@ -127,47 +127,35 @@ function acceptRequest($from,$to) {
 	function maxReached($gameId) {
 		global $conn;
 		
-		$query = "SELECT COUNT(memberId) FROM gameplayers"
-				." WHERE gameId = ?";
-		$stmt = $conn->prepare($query);
+		$query = "SELECT maxPlayers - COUNT(memberId) AS `Slots`"
+					." FROM game G, gameplayers GP"
+					." WHERE G.id = GP.gameId AND G.id = ?"
+					." GROUP BY G.id";
+ 		$stmt = $conn->prepare($query);
 		$stmt->bind_param("i",$gameId);
-		$stmt->bind_result($players);
-		$stmt->execute();
-		$stmt->fetch();
-		$stmt->close();
-			
-		$query = "SELECT maxPlayers FROM game WHERE id = ?";
-		$stmt = $conn->prepare($query);
-		$stmt->bind_param("i",$gameId);
-		$stmt->bind_result($max);
+		$stmt->bind_result($slots);
 		$stmt->execute();
 		$stmt->fetch();
 		$stmt->close();
 		
-		return ($max - $players);
+		return $slots;
 	}
 	
 	function minReached($gameId) {
 		global $conn;
 		
-		$query = "SELECT minPlayers FROM game WHERE id = ?";
+		$query = "SELECT minPlayers - COUNT(memberId) AS `Missing`"
+					." FROM game G, gameplayers GP"
+					." WHERE G.id = GP.gameId AND G.id = ?"
+					." GROUP BY G.id";
  		$stmt = $conn->prepare($query);
  		$stmt->bind_param("i",$gameId);
- 		$stmt->bind_result($min);
+ 		$stmt->bind_result($missing);
  		$stmt->execute();
  		$stmt->fetch();
  		$stmt->close();
-		
-		$query = "SELECT COUNT(memberId) FROM gameplayers"
-				." WHERE gameId = ?";
-		$stmt = $conn->prepare($query);
-		$stmt->bind_param("i",$gameId);
-		$stmt->bind_result($players);
-		$stmt->execute();
-		$stmt->fetch();
-		$stmt->close();
-			
-		return ($min - $players);
+ 			
+		return $missing;
 	}
 	
 	switch( $_POST['request'] ) {
