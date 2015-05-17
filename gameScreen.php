@@ -199,64 +199,59 @@
 				<tr><th colspan='2' id="gameOptions">
 					<div id="notif"></div>
 					<?php 
-						if( $ongoing === 0 ) {
-							$query = "SELECT G.id, M2.username FROM game G, "
-										."gameplayers GP, member M, member M2 "
-										."WHERE M2.id = G.host AND G.id = "
-										."GP.gameId AND M.id = GP.memberID AND "
-										."G.cancelled = FALSE AND G.ended IS "
-										."NULL "
-										."AND M.username = ?";
-							$stmt = $conn->prepare($query);
-							$stmt->bind_param("s",$_SESSION['avalonuser']);
-							$stmt->bind_result($gameId, $gameHost);
-							$stmt->execute();
-							if( $stmt->fetch() ) {
-								$stmt->close();
-								if($gameId == $_GET['gameid']) {
-									if( $gameHost == $_SESSION['avalonuser']) {
-										echo "<button id=\"begin\" "
-												."class=\"goldButton\">Begin "
-												."Game</button>";
-										echo "<script>watchMin = true;"
-												."watchOngoing = true;"
-												."checkMin(); checkOngoing();"
-												."</script>";
-									} else {
-										echo "<button id=\"leave\" "
-												."class=\"goldButton\">Leave "
-												."Game</button>";
-										echo "<button id=\"join\" "
-												."class=\"goldButton\">Join "
-												."Game</button>";
-										echo "<script>$(\"#join\").hide();"
-												."watchMax = true;join = false;"
-												."watchOngoing = true;"
-												."checkMax();checkOngoing();"
-												."</script>";
-									}
+						$query = "SELECT G.id, M2.username FROM game G, "
+									."gameplayers GP, member M, member M2 "
+									."WHERE M2.id = G.host AND G.id = "
+									."GP.gameId AND M.id = GP.memberID AND "
+									."G.cancelled = FALSE AND G.ended IS "
+									."NULL "
+									."AND M.username = ?";
+						$stmt = $conn->prepare($query);
+						$stmt->bind_param("s",$_SESSION['avalonuser']);
+						$stmt->bind_result($gameId, $gameHost);
+						$stmt->execute();
+						if( $stmt->fetch() ) {
+							$stmt->close();
+							if($gameId == $_GET['gameid']) {
+								if( $gameHost == $_SESSION['avalonuser']) {
+									echo "<button id=\"begin\" "
+											."class=\"goldButton\">Begin "
+											."Game</button>";
+									echo "<script>watchMin = true;"
+											."watchOngoing = true;"
+											."checkMin(); checkOngoing();"
+											."</script>";
 								} else {
-									echo "<script>$(\"#notif\").html('You are "
-											."already part of a game.<br />"
-											."<a href=\"game.php?gameid=$gameId"
-											."\">Click here to go to its page"
-											."</a>');</script>";
+									echo "<button id=\"leave\" "
+											."class=\"goldButton\">Leave "
+											."Game</button>";
+									echo "<button id=\"join\" "
+											."class=\"goldButton\">Join "
+											."Game</button>";
+									echo "<script>$(\"#join\").hide();"
+											."watchMax = true;join = false;"
+											."watchOngoing = true;"
+											."checkMax();checkOngoing();"
+											."</script>";
 								}
 							} else {
-								$stmt->close();
-								echo "<button id=\"leave\" "
-										."class=\"goldButton\">Leave Game"
-										."</button>";
-								echo "<button id=\"join\" class=\"goldButton\">"
-										."Join Game</button>";
-								echo "<script>$(\"#leave\").hide(); "
-										."join = true; watchMax = true; "
-										."watchOngoing = true;"
-										."checkMax(); checkOngoing();</script>";
+								echo "<script>$(\"#notif\").html('You are "
+										."already part of a game.<br />"
+										."<a href=\"game.php?gameid=$gameId"
+										."\">Click here to go to its page"
+										."</a>');</script>";
 							}
 						} else {
-							echo "<script>watchOngoing = true; checkOngoing();"
-									."</script>";
+							$stmt->close();
+							echo "<button id=\"leave\" "
+									."class=\"goldButton\">Leave Game"
+									."</button>";
+							echo "<button id=\"join\" class=\"goldButton\">"
+									."Join Game</button>";
+							echo "<script>$(\"#leave\").hide(); "
+									."join = true; watchMax = true; "
+									."watchOngoing = true;"
+									."checkMax(); checkOngoing();</script>";
 						}
 						$conn->close();
 					?>
