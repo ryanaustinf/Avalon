@@ -4,6 +4,7 @@
 			var user = "<?php echo $_SESSION['avalonuser']; ?>";
 			var watchMin = false;
 			var watchMax = false;
+			var watchOngoing = false;
 			var join;
 			var begin;
 			
@@ -82,6 +83,41 @@
 				}
 			}
 		
+			function checkOngoing() {
+				if( watchOngoing ) {
+					$.ajax({
+						url : "controller.php",
+						method : "POST",
+						data : {
+							"request" : "ongoing",
+							"game" : game
+						},
+						success : function( a ) {
+							a = a == '1';
+							if( a ) {
+								watchMax = false;
+								watchMin = false;
+								$("#notif").html("");
+								$("#join").hide();
+								$("#leave").hide();
+								$("#begin").hide();
+								$("#ongoing").text("Ongoing");
+							} else {
+								$("#ongoing").text("Not yet started");
+								if( $("#join").length > 0) {
+									watchMax = true;
+									checkMax();
+								} 
+								if( $("#begin").length > 0 ) {
+									watchMin = true;
+									checkMin();
+								}
+							}
+						}
+					});
+				}
+			}
+		
 			$(document).ready(function() {
 				$("#prompt").hide();
 				
@@ -89,7 +125,8 @@
 				var update = setInterval(updatePlayers,1000);
 				var minInterval = setInterval(checkMin,1000);
 				var maxInterval = setInterval(checkMax,1000);
-					
+				var ongoingInterval = setInterval(checkOngoing,1000);
+				
 				$("#join").click(function() {
 					$.ajax({
 						url : "controller.php",
@@ -132,6 +169,21 @@
 					});
 				});
 				
+				$("#begin").click(function() {
+					$.ajax({
+						url : "controller.php",
+						method : "POST",
+						data : {
+							"request" : "begin",
+							"game" : game
+						},
+						success : function(a) {
+							console.log(a);
+							$("#begin").hide();
+						}
+					});
+				});
+				
 				$("#ok").click(function() {
 					$("#prompt").hide(500);
 				});
@@ -166,8 +218,10 @@
 										echo "<button id=\"begin\" "
 												."class=\"goldButton\">Begin "
 												."Game</button>";
-										echo "<script>watchMin = true; "
-												."checkMin();</script>";
+										echo "<script>watchMin = true;"
+												."watchOngoing = true;"
+												."checkMin(); checkOngoing();"
+												."</script>";
 									} else {
 										echo "<button id=\"leave\" "
 												."class=\"goldButton\">Leave "
@@ -177,7 +231,9 @@
 												."Game</button>";
 										echo "<script>$(\"#join\").hide();"
 												."watchMax = true;join = false;"
-												."checkMax();</script>";
+												."watchOngoing = true;"
+												."checkMax();checkOngoing();"
+												."</script>";
 									}
 								} else {
 									echo "<script>$(\"#notif\").html('You are "
@@ -195,9 +251,14 @@
 										."Join Game</button>";
 								echo "<script>$(\"#leave\").hide(); "
 										."join = true; watchMax = true; "
-										."checkMax();</script>";
+										."watchOngoing = true;"
+										."checkMax(); checkOngoing();</script>";
 							}
+						} else {
+							echo "<script>watchOngoing = true; checkOngoing();"
+									."</script>";
 						}
+						$conn->close();
 					?>
 				</th></tr>
 				<tr>
@@ -217,9 +278,9 @@
 						echo "</th>";
 						echo "</tr>";
 					} else {
-						echo "<tr><th colspan = '2'>";
+						echo "<tr><th colspan = '2' id=\"ongoing\">";
 						echo $ongoing == 0 ? "Not yet started" 
-									: "Ongoing: ";
+									: "Ongoing";
 						echo "</th></tr>";
 						echo "<tr><th "; 
 						echo $ended == 0 ? "colspan = '2'>Not yet ended" 

@@ -158,6 +158,100 @@ function acceptRequest($from,$to) {
 		return $missing;
 	}
 	
+	function getOngoing($gameId) {
+		global $conn;
+		
+		$query = "SELECT ongoing FROM game WHERE id = ?";
+ 		$stmt = $conn->prepare($query);
+ 		$stmt->bind_param("i",$gameId);
+ 		$stmt->bind_result($ongoing);
+ 		$stmt->execute();
+ 		$stmt->fetch();
+ 		$stmt->close();
+ 		
+ 		return $ongoing;		
+	}
+	
+	function assignChars($gameId) {
+		global $conn;
+		
+		$query = "UPDATE game SET ongoing = TRUE WHERE id = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		if( $stmt->execute() ) {
+			echo "Success\n";
+		} else {
+			echo "Fail\n";
+		}
+		
+		$stmt->close();
+		$query = "SELECT memberId FROM gamePlayers WHERE gameId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("i",$gameId);
+		$stmt->bind_result($playerId);
+		if( $stmt->execute() ) {
+			echo "Success\n";
+		} else {
+			echo "Fail\n";
+		}
+		$players = array();
+		
+		while( $stmt->fetch() ) {
+			$players[] = $playerId;
+		}
+		
+		$stmt->close();
+		
+		$playerCount = count($players);
+		$evilCtr = null;
+		switch($playerCount) {
+			case 5:
+			case 6:
+				$evilCtr = 2;
+				break;
+			case 7:
+			case 8:
+			case 9:
+				$evilCtr = 3;
+				break;
+			case 10:
+				$evilCtr = 4;
+				break;
+			default;	
+		}
+		$goodCtr = $playerCount - $evilCtr;
+		
+		$chars = array();
+		for( $i = 1; $i <= $goodCtr; $i++ ) {
+			$chars[] = "Servant of Arthur $i";
+		}
+		
+		for( $i = 1; $i <= $evilCtr; $i++ ) {
+			$chars[] = "Minion of Mordred $i";
+		}
+		
+		$mapping = array();
+		shuffle($chars);
+		$i = 0;
+		foreach( $players as $v ) {
+			$mapping[$v] = $chars[$i];
+			$i++;
+		} 
+		
+		$query = "UPDATE gameplayers SET `character` = ? WHERE memberId = ? "
+					."AND gameId = ?";
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param("sii",$v,$k,$gameId);
+		foreach( $mapping as $k=>$v) {
+			if( $stmt->execute() ) {
+				echo "Success\n";
+			} else {
+				echo "Fail\n";
+			}
+		} 
+		$stmt->close();
+	}
+	
 	switch( $_POST['request'] ) {
 		case 'username':
 			echo checkUsername($_POST['uname']);
@@ -186,7 +280,13 @@ function acceptRequest($from,$to) {
 		case 'min':
 			echo minReached($_POST['game']);
 			break;
-		default;
+		case 'ongoing':
+			echo getOngoing($_POST['game']);
+			break;
+		case 'begin':
+			assignChars($_POST['game']);
+			break; 
+		default:
 	}
 	
 	$conn->close();
