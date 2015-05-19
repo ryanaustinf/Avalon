@@ -54,3 +54,5 @@
  		require_once "gameScreen.php";
  	} 	 	
 ?>
+	</body>
+</html>
