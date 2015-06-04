@@ -3,18 +3,20 @@
 	require_once 'header.php';
 	require_once "../avalondb.php";
 	
-	$query = "SELECT G.id, M2.username FROM game G, gameplayers GP, member M, "
-				."member M2 WHERE M2.id = G.host AND G.id = GP.gameId AND M.id"
-				." = GP.memberID AND G.cancelled = FALSE AND G.ended IS NULL "
-				."AND M.username = ?";
+	$query = "SELECT G.id, M2.username 
+				FROM game G, gameplayers GP, member M, member M2 
+				WHERE M2.id = G.host AND G.id = GP.gameId AND G.ended IS NULL
+					AND M.id = GP.memberID AND G.cancelled = FALSE 
+					AND G.ended IS NULL AND M.username = ?";
 	$stmt = $conn->prepare($query);
 	$stmt->bind_param("i",$_SESSION['avalonuser']);
 	$stmt->bind_result($game,$host);
 	$stmt->execute();
 	$pending = null;
 	$hosting=  null;
+	echo substr($query,0,strlen($query) - 2)."'$_SESSION[avalonuser]'";
 	
-	if($stmt->fetch()) {
+	if($res = $stmt->fetch()) {
 		$pending = true;
 		if( $host == $_SESSION['avalonuser'] ) {
 			$hosting = true;
@@ -22,6 +24,7 @@
 	} else {
 		$pending = false;
 	}
+	
 	$hosting = $hosting === null ? false : true;
 	
 	$stmt->close();

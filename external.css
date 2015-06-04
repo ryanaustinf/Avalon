@@ -57,17 +57,23 @@ body {
 	text-align:center;
 }
 
-form#register, form#login {
+div#register, div#login {
 	width:360px;
 	text-align:center;
 	padding:20px 10px;
 	border:groove 5px #FFF;
 }
 
-form#login {
-	position:relative;
-	top:-538px;
-	left:410px;
+div#register {
+	float:left;
+}
+
+.clear {
+	clear:both;
+}
+
+div#login {
+	float:right;
 }
 
 #register h1, #login h1 {
