@@ -14,7 +14,6 @@
 	$stmt->execute();
 	$pending = null;
 	$hosting=  null;
-	echo substr($query,0,strlen($query) - 2)."'$_SESSION[avalonuser]'";
 	
 	if($res = $stmt->fetch()) {
 		$pending = true;
