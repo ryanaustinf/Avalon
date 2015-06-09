@@ -12,25 +12,22 @@
 					<a href="/Avalon"><img src="assets/images/AVALON.png"> Online</a>
 				</h1>
 			</div>
-		<?php
-			if( isset($_SESSION['avalonuser'] ) ) { 
-				echo "<div id=\"username\">\n<a href=\"user.php?uname="
-						.$_SESSION['avalonuser']."\">Welcome, "
-						.$_SESSION['avalonuser']."</h5><br/>\n"
-						."<a data-path='logout' onCLick=\"document.logout.submit();\">Logout"
-						."</a></div>";
-			}
+		<?php if( isset($_SESSION['avalonuser'] ) ) { ?> 
+				<div id="username">
+					<a href="user.php?uname=<?php echo $_SESSION['avalonuser']; ?>">Welcome, <?php echo $_SESSION['avalonuser']; ?><br/>
+					<a data-path='logout' onCLick="document.logout.submit();">Logout</a>
+				</div>
+		<?php }
 		 
-			if( isset($_SESSION['avalonuser']) ) {
-				echo "<ul>\n";
-				if( $_SESSION['moder'] ) {
-					echo "\t\t\t\t<li><a href=\"moderator.php\">Moderator"
-							." Panel</a></li>\n";
-				}
+			  if( isset($_SESSION['avalonuser']) ) {
+		?>
+				<ul>
+	    <?php	if( $_SESSION['moder'] ) { ?>
+					<li><a href="moderator.php">Moderator Panel</a></li>
+		<?php 	} ?>
 				
-				echo "\t\t\t\t<li><a href=\"friends.php\">Friends</a>"
-						."</li>\n";
-				
+				<li><a href="friends.php">Friends</a></li>
+		<?php 		
 				require_once "../avalondb.php";
 				
 				if( $_SERVER['PHP_SELF'] != '/Avalon/requests.php' ) {
@@ -43,18 +40,14 @@
 					$stmt2->execute();
 					$stmt2->fetch();
 					$stmt2->close();
-					
-					echo "\t\t\t\t<li><a href=\"requests.php\">Friend Requests"
-							."($ctr)</a></li>\n";
-				}
+		?>	
+					<li><a href="requests.php">Friend Requests(<?php echo $ctr;?>)</a></li>
+		<?php 	} ?>
 				
-				echo "\t\t\t\t<li><a href=\"community.php\">Community"
-						." Statistics</a></li>\n";
-				
-				if( $_SERVER['PHP_SELF'] != '/Avalon/hostGame.php' ) {
-					echo "\t\t\t\t<li><a href=\"hostGame.php\">Host Game"
-							."</a></li>\n";
-				}
+				<li><a href=\"community.php\">Community Statistics</a></li>
+		<?php 	if( $_SERVER['PHP_SELF'] != '/Avalon/hostGame.php' ) { ?>
+					<li><a href=\"hostGame.php\">Host Game</a></li>
+		<?php 	}
 			}
 		?>
 		<form action="includes/controller.php" method="post" name="logout">
