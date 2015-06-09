@@ -1,54 +1,27 @@
 <?php
-	require_once "../avalondb.php";
-	
-	function checkUsername($uname) {
-		global $conn;
-		
-		//check if username is in the database
-		$query = "SELECT username FROM member WHERE username = ?";
-		$stmt = $conn->prepare($query);
-		$stmt->bind_param("s",$uname);
-		$stmt->execute();
-		
-		//return if exists
-		$ret = ( $stmt->fetch() ? "true" : "false" );
-		$stmt->close(); //close statement
-		return $ret;
+	if( empty($_POST) && !isset($_SERVER['HTTP_REFERER'] ) ) {
+		header("Location: .././");
+		die();
 	}
 	
-	function getId($uname) {
-		global $conn;
+	require_once "user-functions.php";
 		
-		$query = "SELECT id FROM member WHERE username = ?";
-		$stmt = $conn->prepare($query);
-		$stmt->bind_param("s",$uname);
-		$stmt->bind_result($id);
-		$stmt->execute();
-		if( $stmt->fetch() ) {
-			$stmt->close();
-			return $id;
-		} else {
-			$stmt->close();
-			return -1;
-		}
-	}
-	
 	function friendRequest($from,$to) {
-		global $conn;
+		global $db;
 		
 		$fromId = getId($from);
 		$toId = getId($to);
 		echo "$fromId friended $toId";
 		
 		$query = "INSERT INTO friends(fromMember,toMember) VALUES (?,?)";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$fromId,$toId);
 		$stmt->execute();
 		$stmt->close();
 	}
 	
 function acceptRequest($from,$to) {
-		global $conn;
+		global $db;
 		
 		$fromId = getId($from);
 		$toId = getId($to);
@@ -56,20 +29,20 @@ function acceptRequest($from,$to) {
 		
 		$query = "UPDATE friends SET approved = TRUE WHERE fromMember = ? AND "
 					."toMember = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$toId,$fromId);
 		$stmt->execute();
 		$stmt->close();
 		
 		$query = "INSERT INTO friends VALUES (?,?,TRUE)";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$fromId,$toId);
 		$stmt->execute();
 		$stmt->close();
 	}
 	
 	function blockMember($from,$to,$insert) {
-		global $conn;
+		global $db;
 		
 		$fromId = getId($from);
 		$toId = getId($to);
@@ -78,18 +51,18 @@ function acceptRequest($from,$to) {
 		$query = $insert === 'true' ? "INSERT INTO friends VALUES (?,?,FALSE)" 
 					: "UPDATE friends SET approved = FALSE WHERE fromMember = "
 					."? AND toMember = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$toId,$fromId);
 		$stmt->execute();
 		$stmt->close();
 	}
 	
 	function getPlayers($gameId) {
-		global $conn;
+		global $db;
 		
 		$query = "SELECT username FROM member M, gameplayers GP"
 					." WHERE GP.memberID = M.id AND GP.gameId = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("i",$gameId);
 		$stmt->bind_result($uname);
 		$stmt->execute();
@@ -103,35 +76,35 @@ function acceptRequest($from,$to) {
 	}
 	
 	function joinGame($gameId,$uname) {
-		global $conn;
+		global $db;
 		
 		$id = getId($uname); 
 		$query = "INSERT INTO gameplayers(gameId, memberId) VALUES (?,?)";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$gameId,$id);
 		$stmt->execute();
 		echo "$uname joined game $gameId";
 	}
 	
 	function leaveGame($gameId,$uname) {
-		global $conn;
+		global $db;
 		
 		$id = getId($uname); 
 		$query = "DELETE FROM gameplayers WHERE gameId = ? AND memberId = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("ii",$gameId,$id);
 		$stmt->execute();
 		echo "$uname left game $gameId";
 	}
 	
 	function maxReached($gameId) {
-		global $conn;
+		global $db;
 		
 		$query = "SELECT maxPlayers - COUNT(memberId) AS `Slots`"
 					." FROM game G, gameplayers GP"
 					." WHERE G.id = GP.gameId AND G.id = ?"
 					." GROUP BY G.id";
- 		$stmt = $conn->prepare($query);
+ 		$stmt = $db->prepare($query);
 		$stmt->bind_param("i",$gameId);
 		$stmt->bind_result($slots);
 		$stmt->execute();
@@ -142,13 +115,13 @@ function acceptRequest($from,$to) {
 	}
 	
 	function minReached($gameId) {
-		global $conn;
+		global $db;
 		
 		$query = "SELECT minPlayers - COUNT(memberId) AS `Missing`"
 					." FROM game G, gameplayers GP"
 					." WHERE G.id = GP.gameId AND G.id = ?"
 					." GROUP BY G.id";
- 		$stmt = $conn->prepare($query);
+ 		$stmt = $db->prepare($query);
  		$stmt->bind_param("i",$gameId);
  		$stmt->bind_result($missing);
  		$stmt->execute();
@@ -159,10 +132,10 @@ function acceptRequest($from,$to) {
 	}
 	
 	function getOngoing($gameId) {
-		global $conn;
+		global $db;
 		
 		$query = "SELECT ongoing FROM game WHERE id = ?";
- 		$stmt = $conn->prepare($query);
+ 		$stmt = $db->prepare($query);
  		$stmt->bind_param("i",$gameId);
  		$stmt->bind_result($ongoing);
  		$stmt->execute();
@@ -173,10 +146,10 @@ function acceptRequest($from,$to) {
 	}
 	
 	function assignChars($gameId) {
-		global $conn;
+		global $db;
 		
 		$query = "UPDATE game SET ongoing = TRUE WHERE id = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("i",$gameId);
 		if( $stmt->execute() ) {
 			echo "Success\n";
@@ -186,7 +159,7 @@ function acceptRequest($from,$to) {
 		
 		$stmt->close();
 		$query = "SELECT memberId FROM gamePlayers WHERE gameId = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("i",$gameId);
 		$stmt->bind_result($playerId);
 		if( $stmt->execute() ) {
@@ -240,7 +213,7 @@ function acceptRequest($from,$to) {
 		
 		$query = "UPDATE gameplayers SET `character` = ? WHERE memberId = ? "
 					."AND gameId = ?";
-		$stmt = $conn->prepare($query);
+		$stmt = $db->prepare($query);
 		$stmt->bind_param("sii",$v,$k,$gameId);
 		foreach( $mapping as $k=>$v) {
 			if( $stmt->execute() ) {
@@ -253,26 +226,59 @@ function acceptRequest($from,$to) {
 	}
 	
 	switch( $_POST['request'] ) {
-		case 'username':
-			echo checkUsername($_POST['uname']);
+		case 'accept':
+			acceptRequest($_POST['from'],$_POST['to']);
+			break;
+		case 'begin':
+			assignChars($_POST['game']);
+			break; 
+		case 'block':
+			blockMember($_POST['from'],$_POST['to'],$_POST['insert']);
 			break;
 		case 'friend':
 			friendRequest($_POST['from'],$_POST['to']);
 			break;
-		case 'accept':
-			acceptRequest($_POST['from'],$_POST['to']);
-			break;
-		case 'block':
-			blockMember($_POST['from'],$_POST['to'],$_POST['insert']);
-			break;
-		case 'players':
-			echo getPlayers($_POST['game']);
-			break; 
 		case 'join':
 			joinGame($_POST['game'],$_POST['user']);
 			break;
 		case 'leave':
 			leaveGame($_POST['game'],$_POST['user']);
+			break;
+		case 'login':
+			$data = usrGetData($_POST['uname']);
+
+			$pass = hash("md5","Arthur".$_POST['pass']."Guinevere");
+			$hash_pass = $data['password'];
+			
+			if( $pass === $hash_pass ) {
+				$_SESSION['faillogin'] = false;
+				$_SESSION['avalonuser'] = $_POST['uname'];
+				$moder = $data['moder'] !== null;
+				$admin = $data['moder'] !== null;	
+				setcookie("avalonuser",$_POST['uname'], time() + 86400 * 14,
+						"/Avalon" );
+				setcookie("moder",$moder, time() + 86400 * 14, "/Avalon" );
+				setcookie("admin",$admin, time() + 86400 * 14, "/Avalon" );
+				$_SESSION['moder'] = $moder;
+				$_SESSION['admin'] = $admin;
+				header("Location: .././");
+			} else {
+				$_SESSION['faillogin'] = true;
+				header("Location: .././");
+			}
+			die();
+			break;
+		case 'logout':
+			//deletes cookies
+			setcookie("avalonuser","",time() - 86400,"/Avalon");
+			setcookie("moder","", time() - 86400, "/Avalon" );
+			setcookie("admin","", time() - 86400, "/Avalon" );
+			
+			//destroys session
+			session_unset();
+			session_destroy();
+			header("Location: .././");
+			die();
 			break;
 		case 'max':
 			echo maxReached($_POST['game']);
@@ -283,11 +289,24 @@ function acceptRequest($from,$to) {
 		case 'ongoing':
 			echo getOngoing($_POST['game']);
 			break;
-		case 'begin':
-			assignChars($_POST['game']);
+		case 'players':
+			echo getPlayers($_POST['game']);
 			break; 
+		case 'register':
+			$_SESSION['faillogin'] = false;
+			$res = usr_register($_POST['fname'], $_POST['lname']
+									, $_POST['uname'], $_POST['pass']
+									, $_POST['bio']);
+			if( $res ) {
+				header("Location: .././?result=success");
+			} else {
+				header("Location: .././?result=failure");
+			}	
+			die();
+			break;
+		case 'username':
+			echo usrCheckUsername($_POST['uname']);
+			break;
 		default:
 	}
-	
-	$conn->close();
 ?>

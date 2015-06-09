@@ -19,4 +19,8 @@
 		$_SESSION['admin'] = false;
 	}
 	
+	if( !isset($_SESSION['faillogin']) ) {
+		$_SESSION['faillogin'] = false;
+	}
+	
 ?>

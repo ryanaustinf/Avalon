@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<title>Avalon Online</title>
-		<link rel="stylesheet" href="external.css" />
-		<script src="jquery-2.1.1.js"></script>
+		<link rel="stylesheet" href="assets/css/external.css" />
+		<script src="assets/js/jquery-2.1.1.js"></script>
 	</head>
 	<body>
 		<header>
 			<div id="title">
 				<h1>
-					<a href="/Avalon"><img src="Assets/AVALON.png"> Online</a>
+					<a href="/Avalon"><img src="assets/images/AVALON.png"> Online</a>
 				</h1>
 			</div>
 		<?php
@@ -17,7 +17,7 @@
 				echo "<div id=\"username\">\n<a href=\"user.php?uname="
 						.$_SESSION['avalonuser']."\">Welcome, "
 						.$_SESSION['avalonuser']."</h5><br/>\n"
-						."<a href=\"logout.php\">Logout"
+						."<a data-path='logout' onCLick=\"document.logout.submit();\">Logout"
 						."</a></div>";
 			}
 		 
@@ -57,4 +57,7 @@
 				}
 			}
 		?>
+		<form action="includes/controller.php" method="post" name="logout">
+			<input type="hidden" name="request" value="logout" />
+		</form>
 </header>
